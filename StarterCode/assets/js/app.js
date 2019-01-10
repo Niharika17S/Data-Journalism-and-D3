@@ -58,8 +58,8 @@ d3.csv("data/data.csv").then(function(csvData) {
       // Step 5: Create Circles
     var circlesGroup = chartGroup.selectAll("circle")
     .data(csvData)
-    .enter();
-    circlesGroup.append("circle")
+    .enter()
+    .append("circle")
     .attr("cx", d => xLinearScale(d.poverty))
     .attr("cy", d => yLinearScale(d.healthcare))
     .attr("r", "10")
@@ -67,7 +67,8 @@ d3.csv("data/data.csv").then(function(csvData) {
     // .attr("opacity", ".5");
 
     //Adding state abbr inside the circles
-    circlesGroup.append("text").text(function(d){
+     chartGroup.selectAll("null").data(csvData)
+     .enter().append("text").text(function(d){
       return d.abbr;
     })
     .attr("x",d => xLinearScale(d.poverty))
@@ -87,15 +88,15 @@ d3.csv("data/data.csv").then(function(csvData) {
     // ==============================
     chartGroup.call(toolTip);
 
-    // // Step 8: Create event listeners to display and hide the tooltip
-    // // ==============================
-    // circlesGroup.on("mouseover", function(data) {
-    //   toolTip.show(data, this);
-    // })
-    //   // onmouseout event
-    //   .on("mouseout", function(data, index) {
-    //     toolTip.hide(data);
-    //   });
+    // Step 8: Create event listeners to display and hide the tooltip
+    // ==============================
+    circlesGroup.on("mouseover", function(data) {
+      toolTip.show(data, this);
+    })
+      // onmouseout event
+      .on("mouseout", function(data, index) {
+        toolTip.hide(data);
+      });
     
     // Create axes labels
     chartGroup.append("text")
